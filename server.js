@@ -2,13 +2,15 @@
 const PORT = process.env.PORT || 3000;
 
 // Import required modules
-const fs = require('fs').promises;
 const path = require('path');
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 
 // Create an Express application
 const app = express();
+
+// Import modules
+const { readDataFromFile, createNewNote, deleteNote } = require('./helpers/helpers');
 
 // Define the path to the JSON file where notes will be stored
 const DB_FILE_PATH = path.join(__dirname, './db/db.json');
@@ -20,17 +22,6 @@ const DB_FILE_PATH = path.join(__dirname, './db/db.json');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
-
-// Function to read data from the JSON file and parse it as an array of notes
-async function readDataFromFile(filePath) {
-    try {
-        const fileData = await fs.readFile(filePath, 'utf8');
-        return JSON.parse(fileData);
-    } catch (err) {
-        console.error('Error reading data from file:', err);
-        return [];
-    }
-}
 
 // Function to initialize the application by reading data from the JSON file and starting the server
 async function initialize() {
@@ -70,15 +61,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-
-// Function to create a new note and add it to the array of notes
-async function createNewNote(body, notesArray) {
-    const newNote = { ...body, id: uuidv4() };
-    notesArray.push(newNote);
-    fs.writeFile(DB_FILE_PATH, JSON.stringify(notesArray, null, 2));
-    return newNote;
-}
-
 // POST request to '/api/notes' creates a new note
 app.post('/api/notes', async (req, res) => {
     try {
@@ -88,12 +70,6 @@ app.post('/api/notes', async (req, res) => {
         res.status(500).json({ error: 'Failed to create note.' });
     }
 });
-
-// Function to delete a note from the array of notes and update the JSON file
-async function deleteNote(id, notesArray) {
-    const updatedNotes = notesArray.filter((note) => note.id !== id);
-    await fs.writeFile(DB_FILE_PATH, JSON.stringify(updatedNotes, null, 2));
-}
 
 // DELETE request to '/api/notes/:id' deletes a note with the specified ID
 app.delete('/api/notes/:id', async (req, res) => {
