@@ -8,9 +8,7 @@ This application lets you save notes effortlessly, complete with titles and plai
 
 Run npm install to install all dependencies. To use the application locally, run node server.js in your CLI, and then open http://localhost:3000 in your preferred browswer.
 
-## Screenshots
-
-### Figure 1. Command line application
+## Application Screenshot
 
 ![APP](https://github.com/andrei-ribeiro-wenceslau/note-taker/blob/main/images/application-screenshot.png)
 
