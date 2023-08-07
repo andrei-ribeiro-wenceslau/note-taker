@@ -1,8 +1,5 @@
 // Set the server's port number to either the environment variable PORT or 3000
-const PORT = process.env.PORT || 3000;
 
-// Define the path to the JSON file where notes will be stored
-const DB_FILE_PATH = path.join(__dirname, './db/db.json');
 
 // Import required modules
 const express = require('express');
@@ -13,9 +10,13 @@ const fs = require('fs').promises;
 // Create an Express application
 const app = express();
 
+// Define the path to the JSON file where notes will be stored
+
+
 // Import modules
-const { readDataFromFile, createNewNote, deleteNote } = require('./helpers/helpers');
-const { setupRoutes } = require('./routes/routes');
+const { PORT, DB_FILE_PATH } = require('./config');
+const { readDataFromFile, createNewNote, deleteNote } = require('./helpers');
+const { setupRoutes } = require('./routes');
 
 
 // Middlewares:

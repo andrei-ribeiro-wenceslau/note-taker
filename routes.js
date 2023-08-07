@@ -1,8 +1,8 @@
 const path = require('path');
-const { createNewNote, deleteNote } = require('./helpers/helpers');
+const { createNewNote, deleteNote } = require('./helpers');
 
 function setupRoutes(app) {
-    // GET request to '/api/notes' returns all not
+    // GET request to '/api/notes' returns all not and
     app.get('/api/notes', (req, res) => {
         res.json(app.locals.allNotes);
     });

@@ -1,5 +1,9 @@
+
+
 // Import required modules
 const fs = require('fs').promises;
+const { v4: uuidv4 } = require('uuid'); // Import uuidv4
+const { DB_FILE_PATH } = require('./config'); // Import DB_FILE_PATH
 
 // Function to read data from the JSON file and parse it as an array of notes
 async function readDataFromFile(filePath) {
